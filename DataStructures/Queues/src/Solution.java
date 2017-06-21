@@ -1,0 +1,79 @@
+/*
+Transcript of problem:
+ 
+A queue is an abstract data type that maintains the order in which elements were added to it, allowing the oldest elements to be removed from the front and new elements to be added to the rear. This is called a First-In-First-Out (FIFO) data structure because the first element added to the queue (i.e., the one that has been waiting the longest) is always the first one to be removed.
+
+A basic queue has the following operations:
+
+Enqueue: add a new element to the end of the queue.
+Dequeue: remove the element from the front of the queue and return it.
+
+In this challenge, you must first implement a queue using two stacks. Then process q queries, where each query is one of the following 3 types: 
+
+1 x: Enqueue element x into the end of the queue.
+2: Dequeue the element at the front of the queue.
+3: Print the element at the front of the queue.
+
+--Input Format
+
+The first line contains a single integer, q, denoting the number of queries.
+Each line i of the subsequent q lines contains a single query in the form described in the problem statement above. All three queries start with an integer denoting the query type, but only query 1 is followed by an additional space-separated value, x, denoting the value to be enqueued.
+
+--Constraints
+
+1 <= q <= 10^5
+1 <= type <= 3
+1 <= |x| <= 10^9
+It is guaranteed that a valid answer always exists for each query of type .
+
+--Output Format
+
+For each query of type 3, print the value of the element at the front of the queue on a new line. 
+*/
+
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner inputScanner = new Scanner(System.in);
+        
+        Stack<Long> stack1 = new Stack<Long>();
+        Stack<Long> stack2 = new Stack<Long>();
+        
+        int numberOfOperations = inputScanner.nextInt();
+        
+        for (int operationIndex = 0; operationIndex < numberOfOperations; operationIndex++) {
+        	int operationType = inputScanner.nextInt();
+        	
+        	if (operationType == 1) {
+        		// Enqueue element
+        		long longParameter = inputScanner.nextLong();
+        		stack1.push(longParameter);
+        	} else if (operationType == 2) {
+        		// Dequeue element
+        		if (!stack1.empty()) {
+	        		while (!stack1.empty()) {
+	        			stack2.push(stack1.pop());
+	        		}
+	        		stack2.pop();
+	        		while (!stack2.empty()) {
+	        			stack1.push(stack2.pop());
+	        		}
+        		}
+        	} else if (operationType == 3) {
+        		// Read element at the front of the queue
+        		if (!stack1.empty()) {
+	        		while (!stack1.empty()) {
+	        			stack2.push(stack1.pop());
+	        		}
+	        		System.out.println(stack2.peek());
+	        		while (!stack2.empty()) {
+	        			stack1.push(stack2.pop());
+	        		}
+        		}
+        	}
+        }
+    }
+}
