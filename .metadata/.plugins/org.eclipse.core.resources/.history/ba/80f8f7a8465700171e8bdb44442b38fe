@@ -69,12 +69,18 @@ public class Solution {
         		}
         	} else if (operationType == 3) {
         		// Read element at the front of the queue
-        		if (Solution.stack2.isEmpty()) {
-                    while (!Solution.stack1.isEmpty()) {
+        		if(Solution.stack2.isEmpty())
+                {
+                    while(!Solution.stack1.isEmpty())
+                    {
                     	Solution.stack2.push(Solution.stack1.pop());
-                    }   
+                    }
+                    System.out.println(Solution.stack2.peek());
+                } 
+                else 
+                {
+                    System.out.println(Solution.stack2.peek());
                 }
-        		System.out.println(Solution.stack2.peek());
         	}
         }
         inputScanner.close();
