@@ -1,6 +1,6 @@
 /*
 Transcript of problem:
-
+ 
 A queue is an abstract data type that maintains the order in which elements were added to it, allowing the oldest elements to be removed from the front and new elements to be added to the rear. This is called a First-In-First-Out (FIFO) data structure because the first element added to the queue (i.e., the one that has been waiting the longest) is always the first one to be removed.
 
 A basic queue has the following operations:
@@ -29,7 +29,7 @@ It is guaranteed that a valid answer always exists for each query of type 3.
 --Output Format
 
 For each query of type 3, print the value of the element at the front of the queue on a new line. 
- */
+*/
 
 import java.io.*;
 import java.util.*;
@@ -38,36 +38,45 @@ public class Solution {
 
 	public static Stack<Long> stack1 = new Stack<Long>();
 	public static Stack<Long> stack2 = new Stack<Long>();
-
-	public static void main(String[] args) {
-		Scanner inputScanner = new Scanner(System.in);
-		int numberOfOperations = inputScanner.nextInt();
-		for (int operationIndex = 0; operationIndex < numberOfOperations; operationIndex++) {
-			int operationType = inputScanner.nextInt();
-			if (operationType == 1) {
-				// Enqueue element
-				long longParameter = inputScanner.nextLong();
-				Solution.stack1.push(longParameter);
-			} else if (operationType == 2) {
-				// Dequeue element
-				if (Solution.stack2.empty()) {
-					while (!Solution.stack1.empty()) {
-						Solution.stack2.push(Solution.stack1.pop());
-					}
-				}
-				if (!Solution.stack2.empty()) {
-					Solution.stack2.pop();
-				}
-			} else if (operationType == 3) {
-				// Read element at the front of the queue
-				if (Solution.stack2.isEmpty()) {
-					while (!Solution.stack1.isEmpty()) {
-						Solution.stack2.push(Solution.stack1.pop());
-					}   
-				}
-				System.out.println(Solution.stack2.peek());
-			}
-		}
-		inputScanner.close();
+	
+	public static long endQueueValue;
+	
+	public static void updateEndQueueValue(long endQueueValue) {
+		Solution.endQueueValue = endQueueValue;
 	}
+	
+    public static void main(String[] args) {
+        Scanner inputScanner = new Scanner(System.in);
+        int numberOfOperations = inputScanner.nextInt();
+        for (int operationIndex = 0; operationIndex < numberOfOperations; operationIndex++) {
+        	int operationType = inputScanner.nextInt();
+        	if (operationType == 1) {
+        		// Enqueue element
+        		long longParameter = inputScanner.nextLong();
+        		if (Solution.stack1.isEmpty()) {
+        			Solution.updateEndQueueValue(longParameter);
+        		}
+        		Solution.stack1.push(longParameter);
+        	} else if (operationType == 2) {
+        		// Dequeue element
+        		if (Solution.stack2.empty()) {
+    	        	while (!Solution.stack1.empty()) {
+    	        		Solution.stack2.push(Solution.stack1.pop());
+    	        	}
+        		}
+        		if (!Solution.stack2.empty()) {
+        			Solution.stack2.pop();
+        		}
+        	} else if (operationType == 3) {
+        		// Read element at the front of the queue
+        		if (Solution.stack2.isEmpty()) {
+                    while (!Solution.stack1.isEmpty()) {
+                    	Solution.stack2.push(Solution.stack1.pop());
+                    }   
+                }
+        		System.out.println(Solution.stack2.peek());
+        	}
+        }
+        inputScanner.close();
+    }
 }

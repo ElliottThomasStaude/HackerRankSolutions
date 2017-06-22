@@ -39,6 +39,12 @@ public class Solution {
 	public static Stack<Long> stack1 = new Stack<Long>();
 	public static Stack<Long> stack2 = new Stack<Long>();
 
+	public static long endQueueValue;
+
+	public static void updateEndQueueValue(long endQueueValue) {
+		Solution.endQueueValue = endQueueValue;
+	}
+
 	public static void main(String[] args) {
 		Scanner inputScanner = new Scanner(System.in);
 		int numberOfOperations = inputScanner.nextInt();
@@ -47,6 +53,9 @@ public class Solution {
 			if (operationType == 1) {
 				// Enqueue element
 				long longParameter = inputScanner.nextLong();
+				if (Solution.stack1.isEmpty()) {
+					Solution.updateEndQueueValue(longParameter);
+				}
 				Solution.stack1.push(longParameter);
 			} else if (operationType == 2) {
 				// Dequeue element
