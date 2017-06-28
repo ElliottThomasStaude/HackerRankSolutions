@@ -1,0 +1,80 @@
+/*
+Transcript of problem:
+
+You are given Q queries. Each query consists of a single number N. You can perform any of the 2 operations on N in each move:
+
+1: If we take 2 integers a and b where N = a x b (a != 1, b != 1) then we can change N = max(a, b)
+
+2: Decrease the value of N by 1.
+
+Determine the minimum number of moves required to reduce the value of N to 0.
+
+--Input Format
+
+The first line contains the integer Q.
+The next Q lines each contain an integer, N.
+
+--Constraints
+
+1 <= Q <= 10^3
+0 <= N <= 10^6
+
+--Output Format
+
+Output Q lines. Each line containing the minimum number of moves required to reduce the value of N to 0.
+*/
+
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner inputScanner = new Scanner(System.in);
+        int maximumNumber = 100;
+        int[] sizeOfSteps = new int[maximumNumber];
+        sizeOfSteps[0] = 1;
+        sizeOfSteps[1] = 2;
+        sizeOfSteps[2] = 3;
+        sizeOfSteps[3] = 3;
+        
+        for (int positionIndex = 4; positionIndex < maximumNumber; positionIndex++) {
+        	sizeOfSteps[positionIndex] = positionIndex;
+        }
+        
+        int lastStepCount = 3;
+        
+        for (int positionIndex = 3; positionIndex < maximumNumber; positionIndex++) {
+        	if (sizeOfSteps[positionIndex] > lastStepCount + 1) {
+        		sizeOfSteps[positionIndex] = lastStepCount + 1;
+        	}
+        	int currentCount = sizeOfSteps[positionIndex];
+        	int actualValue = positionIndex + 1;
+        	
+        	int maximumProductInt = Math.floorDiv(maximumNumber, actualValue);
+        	int limitCeiling = Math.min(maximumProductInt, actualValue);
+        	for (int innerPositionIndex = 2; innerPositionIndex <= limitCeiling; innerPositionIndex++) {
+        		int product = innerPositionIndex * actualValue;
+        		if (sizeOfSteps[product - 1] > currentCount + 1) {
+        			sizeOfSteps[product - 1] = currentCount + 1;
+        		}
+        	}
+        	
+        	lastStepCount = currentCount;
+        }
+        
+        System.out.println(Arrays.toString(sizeOfSteps));
+        
+        int queryCount = inputScanner.nextInt();
+        
+        for (int queryIndex = 0; queryIndex < queryCount; queryIndex++) {
+            int parentNumber = inputScanner.nextInt();
+            int moveCount = sizeOfSteps[parentNumber - 1];
+            System.out.println(moveCount);
+        }
+    }
+}
