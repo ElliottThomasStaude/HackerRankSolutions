@@ -27,45 +27,34 @@ public class Solution {
 
     public static void main(String[] args) {
         Scanner inputScanner = new Scanner(System.in);
-        long numberOfPumps = inputScanner.nextLong();
+        int numberOfPumps = inputScanner.nextInt();
         
-        long startingPump = 0;
-        long endingPump = 0;
-        long petrolQuantity = 0;
-        long distanceQuantity = 0;
+        int startingPump = 0;
+        int endingPump = 0;
+        int petrolQuantity = 0;
+        int distanceQuantity = 0;
         
-        long[] pumpDistanceArray = new long[(int)numberOfPumps];
-        long[] pumpPetrolArray = new long[(int)numberOfPumps];
+        int[] pumpDistanceArray = new int[numberOfPumps];
+        int[] pumpPetrolArray = new int[numberOfPumps];
         
-        for (long pumpIndex = 0; pumpIndex < numberOfPumps; pumpIndex++) {
-        	long pumpPetrol = inputScanner.nextInt();
-        	pumpPetrolArray[(int)pumpIndex] = pumpPetrol;
-        	long pumpDistance = inputScanner.nextInt();
-        	pumpDistanceArray[(int)pumpIndex] = pumpDistance;
-        	
-        	// Perform checks while assembling arrays to save time
-        	if (petrolQuantity >= distanceQuantity) {
-    			petrolQuantity += pumpPetrolArray[(int)endingPump];
-    			distanceQuantity += pumpDistanceArray[(int)endingPump];
-    			endingPump++;
-    		} else {
-    			petrolQuantity -= pumpPetrolArray[(int)startingPump];
-    			distanceQuantity -= pumpDistanceArray[(int)startingPump];
-    			startingPump++;
-    		}
+        for (int pumpIndex = 0; pumpIndex < numberOfPumps; pumpIndex++) {
+        	int pumpPetrol = inputScanner.nextInt();
+        	pumpPetrolArray[pumpIndex] = pumpPetrol;
+        	int pumpDistance = inputScanner.nextInt();
+        	pumpDistanceArray[pumpIndex] = pumpDistance;
         }
         
         boolean pumpNotFound = true;
         
         while (pumpNotFound) {
     		if (petrolQuantity >= distanceQuantity) {
-    			petrolQuantity += pumpPetrolArray[(int)endingPump];
-    			distanceQuantity += pumpDistanceArray[(int)endingPump];
+    			petrolQuantity += pumpPetrolArray[endingPump];
+    			distanceQuantity += pumpDistanceArray[endingPump];
     			endingPump++;
     			endingPump = endingPump % numberOfPumps;
     		} else {
-    			petrolQuantity -= pumpPetrolArray[(int)startingPump];
-    			distanceQuantity -= pumpDistanceArray[(int)startingPump];
+    			petrolQuantity -= pumpPetrolArray[startingPump];
+    			distanceQuantity -= pumpDistanceArray[startingPump];
     			startingPump++;
     			startingPump = startingPump % numberOfPumps;
     		}
@@ -74,6 +63,5 @@ public class Solution {
         	}
         }
         System.out.println(startingPump);
-        inputScanner.close();
     }
 }
