@@ -1,0 +1,44 @@
+/*
+Transcript of problem:
+
+
+*/
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+	/*
+	The starting point is to remove as many elements from stack A as possible, so that the removed elements have a sum less than 
+	or equal to x. After removing these elements, they should be placed on a holder stack; one at a time, the holder stack's
+	contents should be popped off (this represents "taking" fewer elements from stack A), and as many elements from stack B 
+	should be removed as will keep the sum of the removed elements from stack A and stack B equal to or lower than x. After all
+	the elements have been removed from the holder stack, the maximum value found which is less than or equal to x is the best
+	score possible. While it is not an exception, an additional stipulation can be made: if the score x is ever produced, then x
+	should be reported immediately as the best score, since by its definition it forms a ceiling to possible score values, and
+	doing so will potentially save many operations.
+	*/
+	
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int g = in.nextInt();
+        for(int a0 = 0; a0 < g; a0++){
+            int n = in.nextInt();
+            int m = in.nextInt();
+            int x = in.nextInt();
+            ArrayDeque<Integer> stackA = new ArrayDeque<Integer>();
+            for(int a_i=0; a_i < n; a_i++){
+            	stackA.add(in.nextInt());
+            }
+            ArrayDeque<Integer> stackB = new ArrayDeque<Integer>();
+            for(int b_i=0; b_i < m; b_i++){
+                b[b_i] = in.nextInt();
+            }
+            // your code goes here
+        }
+    }
+}
