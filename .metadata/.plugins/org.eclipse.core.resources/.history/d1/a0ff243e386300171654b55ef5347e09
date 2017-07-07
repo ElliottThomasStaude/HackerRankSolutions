@@ -72,25 +72,25 @@ public class Solution {
             int bCount = 0;
             int stackASum = 0;
             int stackBSum = 0;
-            while (stackASum <= x && !stackA.isEmpty()) {
+            while (stackASum < x && !stackA.isEmpty()) {
             	int topValue = stackA.pop();
             	stackASum += topValue;
             	holderA.push(topValue);
             	aCount++;
             }
-            while (stackASum > x) {
+            if (stackASum > x) {
             	int replaceValue = holderA.pop();
             	stackASum -= replaceValue;
             	stackA.push(replaceValue);
             	aCount--;
             }
-            while (stackASum + stackBSum <= x && !stackB.isEmpty()) {
+            while (stackASum + stackBSum < x && !stackB.isEmpty()) {
             	int topValue = stackB.pop();
             	stackBSum += topValue;
             	holderB.push(topValue);
             	bCount++;
             }
-            while (stackASum + stackBSum > x) {
+            if (stackASum + stackBSum > x) {
             	int replaceValue = holderB.pop();
             	stackBSum -= replaceValue;
             	stackB.push(replaceValue);
@@ -102,24 +102,23 @@ public class Solution {
             	stackASum -= replaceValue;
             	stackA.push(replaceValue);
             	aCount--;
-        		while (stackASum + stackBSum <= x && !stackB.isEmpty()) {
+        		while (stackASum + stackBSum < x && !stackB.isEmpty()) {
         			int topValue = stackB.pop();
                 	stackBSum += topValue;
                 	holderB.push(topValue);
                 	bCount++;
         		}
-        		while (stackASum + stackBSum > x) {
+        		if (stackASum + stackBSum > x) {
         			replaceValue = holderB.pop();
                 	stackBSum -= replaceValue;
                 	stackB.push(replaceValue);
                 	bCount--;
         		}
-        		while (bestMaxValue < aCount + bCount) {
+        		if (bestMaxValue < aCount + bCount) {
         			bestMaxValue = aCount + bCount;
         		}
         	}
             System.out.println(bestMaxValue);
         }
-        in.close();
     }
 }

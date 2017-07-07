@@ -114,12 +114,16 @@ public class Solution {
                 	stackB.push(replaceValue);
                 	bCount--;
         		}
+        		System.out.println(stackASum);
+            	System.out.println(aCount);
+        		System.out.println(stackBSum);
+            	System.out.println(bCount);
+            	System.out.println("----");
         		while (bestMaxValue < aCount + bCount) {
         			bestMaxValue = aCount + bCount;
         		}
         	}
             System.out.println(bestMaxValue);
         }
-        in.close();
     }
 }
