@@ -52,7 +52,7 @@ public class Solution {
         	long lastPlantPesticideValue = -1;
         	long currentPlantPesticideValue = 0;
         	plantIndex = (int) (numberOfPlants - 1);
-        	while (plantIndex > -1) {
+        	while (plantIndex != 0) {
         		currentPlantPesticideValue = plantRow.get(plantIndex);
         		if (currentPlantPesticideValue < lastPlantPesticideValue) {
         			if (plantsStabilized) {

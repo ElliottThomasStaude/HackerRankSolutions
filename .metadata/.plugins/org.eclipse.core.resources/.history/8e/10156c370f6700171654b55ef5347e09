@@ -32,43 +32,92 @@ public class Solution {
         Scanner inputScanner = new Scanner(System.in);
         long numberOfPlants = inputScanner.nextLong();
         
-        ArrayDeque<Long> plantInput = new ArrayDeque<Long>();
+        ArrayDeque<Long> plantRow = new ArrayDeque<Long>();
         for (long plantIndex = 0L; plantIndex < numberOfPlants; plantIndex++) {
         	long currentPesticideValue = inputScanner.nextLong();
-        	plantInput.push(currentPesticideValue);
+        	plantRow.push(currentPesticideValue);
         }
-        ArrayDeque<Long> holderDeque = new ArrayDeque<Long>();
-        while (plantInput.size() != 0) {
-        	holderDeque.push(plantInput.pop());
-        }
-        ArrayList<Long> plantRow = new ArrayList<Long>(holderDeque);
         inputScanner.close();
         
-        int plantIndex = 0;
+        ArrayDeque<Long> plantBuffer = new ArrayDeque<Long>();
         long plantDays = 0;
         boolean plantsStabilized = false;
         while (!plantsStabilized) {
         	plantsStabilized = true;
         	long lastPlantPesticideValue = -1;
         	long currentPlantPesticideValue = 0;
-        	plantIndex = (int) (numberOfPlants - 1);
-        	while (plantIndex > -1) {
-        		currentPlantPesticideValue = plantRow.get(plantIndex);
+        	while (plantRow.size() != 0) {
+        		currentPlantPesticideValue = plantRow.pop();
         		if (currentPlantPesticideValue < lastPlantPesticideValue) {
         			if (plantsStabilized) {
         				plantsStabilized = false;
         			}
-        			plantRow.remove(plantIndex + 1);
-    				numberOfPlants--;
+        		} else {
+        			if (lastPlantPesticideValue >= 0) {
+        				plantBuffer.add(lastPlantPesticideValue);
+        			}
         		}
         		lastPlantPesticideValue = currentPlantPesticideValue;
-        		plantIndex--;
+        		if (plantRow.size() == 0) {
+        			plantBuffer.add(currentPlantPesticideValue);
+        		}
         	}
         	if (!plantsStabilized) {
         		plantDays++;
+        		plantRow = plantBuffer;
+        		plantBuffer = new ArrayDeque<Long>();
         	}
         }
         
         System.out.println(plantDays);
     }
 }
+/*
+
+20
+5 30 29 28 27 26 4 25 24 23 22 21 20 19 18 5 17 16 15 5
+10
+
+5 [30] 29 28 27 26 4 [25] 24 23 22 21 20 19 18 5 [17] 16 15 5 -> 5 29 28 27 26 4 24 23 22 21 20 19 18 5 16 15 5
+5 [29] 28 27 26 4 [24] 23 22 21 20 19 18 5 [16] 15 5 -> 5 28 27 26 4 23 22 21 20 19 18 5 15 5
+5 [28] 27 26 4 [23] 22 21 20 19 18 5 [15] 5 -> 5 27 26 4 22 21 20 19 18 5 5
+5 [27] 26 4 [22] 21 20 19 18 5 5 -> 5 26 4 21 20 19 18 5 5
+5 [26] 4 [21] 20 19 18 5 5 -> 5 4 20 19 18 5 5
+5 4 [20] 19 18 5 5 -> 5 4 19 18 5 5
+5 4 [19] 18 5 5 -> 5 4 18 5 5
+5 4 [18] 5 5 -> 5 4 5 5
+5 4 [5] 5 -> 5 4 5
+5 4 [5] -> 5 4
+
+
+9
+3 7 1 2 4 8 2 7 10
+2
+
+3 [7] 1 [2 4 8] 2 [7 10] -> 3 1 2
+3 1 [2] -> 3 1
+
+
+
+
+
+
+5 30 29 28 27 26 4 25 24 23 22 21 20 19 18 5 17 16 15 5
+
+5 [30 29 28] 27 26 4 [25 24 23] 22 21 20 19 18 5 [17 16 15] 5
+
+
+5 30 29 28 27 26 {4 (25 24 23 22 21 20 19 18 5 17 16 15) 5}
+5 30 29 28 27 26 {4 (24 23 22 21 20 19 18 5 16 15) 5}
+5 30 29 28 27 26 {4 (23 22 21 20 19 18 5 15) 5}
+5 30 29 28 27 26 {4 (22 21 20 19 18 5) 5}
+5 30 29 28 27 26 {4 (21 20 19 18 5) 5}
+5 30 29 28 27 26 {4 (20 19 18 5) 5}
+5 30 29 28 27 26 {4 (19 18 5) 5}
+5 30 29 28 27 26 {4 (18 5) 5}
+5 30 29 28 27 26 {4 (5) 5} -> 8
+{5 {{4} -> [5]} (5) 5} -> [8]
+
+
+
+*/

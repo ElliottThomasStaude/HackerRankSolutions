@@ -32,40 +32,39 @@ public class Solution {
         Scanner inputScanner = new Scanner(System.in);
         long numberOfPlants = inputScanner.nextLong();
         
-        ArrayDeque<Long> plantInput = new ArrayDeque<Long>();
+        ArrayDeque<Long> plantRow = new ArrayDeque<Long>();
         for (long plantIndex = 0L; plantIndex < numberOfPlants; plantIndex++) {
         	long currentPesticideValue = inputScanner.nextLong();
-        	plantInput.push(currentPesticideValue);
+        	plantRow.push(currentPesticideValue);
         }
-        ArrayDeque<Long> holderDeque = new ArrayDeque<Long>();
-        while (plantInput.size() != 0) {
-        	holderDeque.push(plantInput.pop());
-        }
-        ArrayList<Long> plantRow = new ArrayList<Long>(holderDeque);
         inputScanner.close();
         
-        int plantIndex = 0;
+        ArrayDeque<Long> plantBuffer = new ArrayDeque<Long>();
         long plantDays = 0;
         boolean plantsStabilized = false;
         while (!plantsStabilized) {
         	plantsStabilized = true;
         	long lastPlantPesticideValue = -1;
-        	long currentPlantPesticideValue = 0;
-        	plantIndex = (int) (numberOfPlants - 1);
-        	while (plantIndex > -1) {
-        		currentPlantPesticideValue = plantRow.get(plantIndex);
+        	while (plantRow.size() != 0) {
+        		long currentPlantPesticideValue = plantRow.pop();
         		if (currentPlantPesticideValue < lastPlantPesticideValue) {
         			if (plantsStabilized) {
         				plantsStabilized = false;
         			}
-        			plantRow.remove(plantIndex + 1);
-    				numberOfPlants--;
+        		} else {
+        			if (lastPlantPesticideValue >= 0) {
+        				plantBuffer.add(lastPlantPesticideValue);
+        			}
         		}
         		lastPlantPesticideValue = currentPlantPesticideValue;
-        		plantIndex--;
+        		if (plantRow.size() == 0) {
+        			plantBuffer.add(currentPlantPesticideValue);
+        		}
         	}
         	if (!plantsStabilized) {
         		plantDays++;
+        		plantRow = plantBuffer;
+        		plantBuffer = new ArrayDeque<Long>();
         	}
         }
         
