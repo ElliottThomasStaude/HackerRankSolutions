@@ -1,0 +1,33 @@
+/*
+Transcript of problem:
+
+Given an array A[] of N distinct elements. Let M_1 and M_2 be the smallest and the next smallest element in the interval [L, R] where 1 <= L < R <= N.
+
+S_i = (((M_1 ^ M_2) (+) (M_1 v M_2)) ^ (M_1 (+) M2)).
+
+where ^, v, (+) are the bitwise operators AND, OR, and XOR respectively.
+Your task is to find the maximum possible value of S_i.
+
+-- Input Format
+
+First line contains integer N.
+Second line contains N integers, representing elements of the array A[].
+
+-- Constraints 
+
+1 < N <= 10^6
+1 <= A_i <= 10^9
+
+-- Output Format
+
+Print the value of maximum possible value of S_i.
+
+*/
+
+public class Solution {
+	
+	/*
+	
+	*/
+	
+}

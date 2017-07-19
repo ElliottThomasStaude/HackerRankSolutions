@@ -1,0 +1,83 @@
+/*
+Transcript of problem:
+
+Given an array A[] of N distinct elements. Let M_1 and M_2 be the smallest and the next smallest element in the interval [L, R] where 1 <= L < R <= N.
+
+S_i = (((M_1 ^ M_2) (+) (M_1 v M_2)) ^ (M_1 (+) M2)).
+
+where ^, v, (+) are the bitwise operators AND, OR, and XOR respectively.
+Your task is to find the maximum possible value of S_i.
+
+-- Input Format
+
+First line contains integer N.
+Second line contains N integers, representing elements of the array A[].
+
+-- Constraints 
+
+1 < N <= 10^6
+1 <= A_i <= 10^9
+
+-- Output Format
+
+Print the value of maximum possible value of S_i.
+
+*/
+
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+	
+	/*
+		The operation sequence (((a AND b) XOR (a OR b)) AND (a XOR b)) is actually equal to (a XOR b). This means that the
+		final goal is to ascertain which pair of members has the highest XOR value.
+		
+		Another programmer presented a major pseudocode component on the relevant forum discussions, which is not original
+		to this author; rather, it is used as a template for this implementation in light of its considerable efficiency:
+		
+		For each int i in the array A
+		    while stack is nonempty
+		        yield (i, top of stack)
+		        if i is less than the top of the stack, pop the stack
+		        otherwise break the while loop
+		    push i onto stack
+	*/
+	
+    
+    public static void main(String[] args) {
+    	Scanner inputScanner = new Scanner(System.in);
+    	
+    	int inputCount = inputScanner.nextInt();
+    	
+    	int xorValue = -1;
+    	
+    	int[] inputArray = new int[inputCount];
+    	for (int inputIndex = 0; inputIndex < inputCount; inputIndex++) {
+    		inputArray[inputIndex] = inputScanner.nextInt();
+    	}
+    	Stack<Integer> inputStack = new Stack<Integer>();
+        
+    	for (int inputIndex = 0; inputIndex < inputCount; inputIndex++) {
+    		int currentElement = inputArray[inputIndex];
+    		boolean doLoop = !inputStack.empty();
+    		while (doLoop) {
+    			int topOfStack = inputStack.peek();
+    			int temporaryXorValue = topOfStack ^ currentElement;
+    			if (xorValue < temporaryXorValue) {
+    				xorValue = temporaryXorValue;
+    			}
+    			if (currentElement < topOfStack) {
+    				inputStack.pop();
+    			} else {
+    				doLoop = false;
+    			}
+    		}
+    		inputStack.push(currentElement);
+    	}
+    	
+    	System.out.println(xorValue);
+    	
+        inputScanner.close();
+    }
+}
