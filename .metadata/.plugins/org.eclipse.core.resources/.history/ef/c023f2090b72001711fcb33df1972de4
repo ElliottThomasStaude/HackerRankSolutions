@@ -1,0 +1,26 @@
+/*
+Transcript of problem:
+
+//--
+
+*/
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int q = in.nextInt();
+        int[] number = new int[n];
+        for(int number_i = 0; number_i < n; number_i++){
+            number[number_i] = in.nextInt();
+        }
+    }
+}
+

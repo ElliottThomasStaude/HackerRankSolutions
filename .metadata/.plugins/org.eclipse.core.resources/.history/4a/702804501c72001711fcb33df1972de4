@@ -1,0 +1,121 @@
+/*
+Transcript of problem:
+
+You are a waiter at a party. There are N stacked plates on pile A_0. Each plate has a number written on it. Then there will be Q iterations. In i-th iteration, you start picking up the plates in A_(i-1) from the top one by one and check whether the number on the plate is divisible by the i-th prime. If the number is divisible, you stack that plate on pile B_i. Otherwise, you stack that plate on pile A_i. After Q iterations, plate can only be on pile B_1, B_2, ..., B_Q, A_Q. Output numbers on these plates from the top to bottom of each piles in order of B_1, B_2, ..., B_Q, A_Q.
+
+-- Input Format
+
+The first line contains two space separated integers, N and Q.
+The next line contains N space separated integers representing the initial pile of plates, i.e., A_0. The leftmost value represents the bottom plate of the pile.
+
+-- Constraints
+
+1 <= N <= 5 x 10^4
+2 <= number_i <= 10^4
+1 <= Q <= 1200
+
+-- Output Format
+
+Output N lines. Each line contains a number written on the plate. Printing should be done in the order defined above.
+
+*/
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+	/*
+	Begin with array representing B_1, ..., B_Q; initially put all elements on stack A_current. Get the i-th prime. Check if
+	the i-th prime is a factor in each member of A_current - if so, increment B_i's int value by 1. Otherwise, push the value
+	onto stack A_next. Once A_current is empty, change A_next to A_current and make A_next empty. After q iterations, output
+	the values of the B array elements, and then A_current.
+	*/
+	
+	public static int getNextPrime(int currentPrime) throws Exception {
+		int nextPrime = -1;
+		if (currentPrime < 2) {
+			nextPrime = 2;
+		} else {
+			boolean primeFound = false;
+			int candidatePrime = currentPrime;
+			while (!primeFound) {
+				candidatePrime++;
+				int rootValue = (int) Math.floor(Math.sqrt(candidatePrime));
+				primeFound = true;
+				for (int factorIndex = 2; factorIndex <= rootValue; factorIndex++) {
+					if (candidatePrime % factorIndex == 0) {
+						primeFound = false;
+						break;
+					}
+				}
+			}
+			nextPrime = candidatePrime;
+		}
+		if (nextPrime == -1) {
+			throw new Exception("Problem - no prime was found following " + currentPrime);
+		}
+		return nextPrime;
+	}
+	
+    public static void main(String[] args) {
+        Scanner inputScanner = new Scanner(System.in);
+        int n = inputScanner.nextInt();
+        int q = inputScanner.nextInt();
+        
+        Stack<Integer> aCurrent = new Stack<Integer>();
+        
+        for (int index = 0; index < n; index++) {
+        	aCurrent.push(inputScanner.nextInt());
+        }
+        
+        Stack<Integer> aNext = new Stack<Integer>();
+        ArrayList<Stack<Integer>> bStackArray = new ArrayList<Stack<Integer>>();
+        
+        for (int iteration = 0; iteration <= q; iteration++) {
+        	bStackArray.add(new Stack<Integer>());
+        }
+        
+        int currentPrime = 1;
+        for (int iteration = 1; iteration <= q; iteration++) {
+        	try {
+        		currentPrime = getNextPrime(currentPrime);
+        	} catch (Exception issue) {
+        		System.out.println(issue);
+        	}
+        	
+        	System.out.println(currentPrime);
+        	while (!aCurrent.empty()) {
+        		int plateValue = aCurrent.pop();
+        		if (plateValue % currentPrime == 0) {
+        			bStackArray.get(iteration).push(plateValue);
+        		} else {
+        			aNext.push(plateValue);
+        		}
+        	}
+        	aCurrent = aNext;
+        }
+        
+        for (int bIndex = 1; bIndex <= q; bIndex++) {
+        	Stack<Integer> bStackElement = bStackArray.get(bIndex);
+        	if (bStackElement.size() == 0) {
+        		System.out.println(0);
+        	}
+        	while (bStackElement.size() > 0) {
+        		System.out.println(bStackElement.pop());
+        	}
+        }
+        while (aCurrent.size() == 0) {
+    		System.out.println(0);
+    	}
+        while (aCurrent.size() > 0) {
+    		System.out.println(aCurrent.pop());
+    	}
+        
+        inputScanner.close();
+    }
+}
+
