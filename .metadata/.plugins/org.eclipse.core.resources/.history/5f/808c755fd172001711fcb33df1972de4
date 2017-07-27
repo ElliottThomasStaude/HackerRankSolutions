@@ -86,6 +86,7 @@ public class Solution {
         	} catch (Exception issue) {
         		System.out.println(issue);
         	}
+        	
         	while (!aCurrent.empty()) {
         		int plateValue = aCurrent.pop();
         		if (plateValue % currentPrime == 0) {
@@ -95,7 +96,6 @@ public class Solution {
         		}
         	}
         	aCurrent = aNext;
-        	aNext = new Stack<Integer>();
         }
         
         for (int bIndex = 1; bIndex <= q; bIndex++) {
